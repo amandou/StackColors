@@ -1,18 +1,14 @@
- using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class SpawnManager : MonoBehaviour
 {
     public GameObject player;
-    public List<Vector3> spawnPositions;
     public List<GameObject> blocks;
     public int blocksSize = 12;
 
-    [SerializeField]
-    private float distanceBetweenPlayerSpawnManager;
-
-
+    private bool isSpawning = false;
 
     void Start()
     {
@@ -20,42 +16,32 @@ public class SpawnManager : MonoBehaviour
     }
 
     void Update()
-    {
+    {/*
         float distanceBetweenPlayerSpawnManager = Vector3.Distance(player.transform.position, transform.position);
-        Debug.Log(distanceBetweenPlayerSpawnManager);
+        Debug.Log("distance "+distanceBetweenPlayerSpawnManager);
         if (distanceBetweenPlayerSpawnManager < blocksSize)
         {
             UpdateSpawnPosition();
             SpawnBlocks();
         }
-
+        */
     }
 
     void SpawnBlocks()
     {
         int index = Random.Range(0, blocks.Count);
-        Instantiate(blocks[index], GenerateSpawnPosition(), blocks[index].transform.rotation);
-    }
+        int blocksQuantity = Random.Range(5, 10);
 
-    private Vector3 GenerateSpawnPosition()
-    {
-        int indexSpawnPosition = Random.Range(0, spawnPositions.Count);
-        return spawnPositions[indexSpawnPosition];
-    }
-
-    private void UpdateSpawnPosition()
-    {
-        int xPosition = Random.Range(0, 5);
-        for (int i = 0; i < spawnPositions.Count; i++)
+        for (int i = 0; i < blocksQuantity; i++)
         {
-            spawnPositions[i] = new Vector3(spawnPositions[i].x + (blocksSize + xPosition),
-                                            spawnPositions[i].y,
-                                            spawnPositions[i].z);
+            Instantiate(blocks[index], transform.position, blocks[index].transform.rotation);
+            transform.position = new Vector3(transform.position.x + 1.5f, transform.position.y, transform.position.z);
         }
-        
     }
 
+    void ProbabilityToSpawn()
+    {
 
-
+    }
 
 }
