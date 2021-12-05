@@ -11,6 +11,4 @@ public class StartPlayerColor : MonoBehaviour
         playerMaterial = GetComponent<Renderer>().sharedMaterial;
         playerMaterial.color = Color.gray;
     }
-
-
 }

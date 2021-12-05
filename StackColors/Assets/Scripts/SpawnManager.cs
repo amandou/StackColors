@@ -8,23 +8,15 @@ public class SpawnManager : MonoBehaviour
     public List<GameObject> blocks;
     public int blocksSize = 12;
 
-    private bool isSpawning = false;
+    private bool isSpawning;
+    int minBlocks = 3;
+    float decayRate = 0.05f;
+    float chanceToSpawn = 1f;
+    float distance = 20;
 
     void Start()
     {
-        SpawnBlocks();   
-    }
-
-    void Update()
-    {/*
-        float distanceBetweenPlayerSpawnManager = Vector3.Distance(player.transform.position, transform.position);
-        Debug.Log("distance "+distanceBetweenPlayerSpawnManager);
-        if (distanceBetweenPlayerSpawnManager < blocksSize)
-        {
-            UpdateSpawnPosition();
-            SpawnBlocks();
-        }
-        */
+        StartCoroutine(StartSpawning());
     }
 
     void SpawnBlocks()
@@ -37,11 +29,40 @@ public class SpawnManager : MonoBehaviour
             Instantiate(blocks[index], transform.position, blocks[index].transform.rotation);
             transform.position = new Vector3(transform.position.x + 1.5f, transform.position.y, transform.position.z);
         }
+        distance += player.transform.position.x + 30;
+        transform.position = new Vector3(transform.position.x + distance, transform.position.y, transform.position.z);
     }
-
-    void ProbabilityToSpawn()
+    
+    IEnumerator StartSpawning()
     {
+        SpawnBlocks();
+        float timeRespawn = Random.Range(1, 3);
 
+        yield return new WaitForSeconds(timeRespawn);
     }
-
+    
+    void StopSpawning()
+    {
+        isSpawning = false;
+        minBlocks = 3;
+        decayRate = 0.05f;
+        chanceToSpawn = 1f;
+        
+        while (!isSpawning)
+        {
+            float randomDraw = Random.Range(0, 1);
+            if (randomDraw < chanceToSpawn)
+            {
+                distance += 12;
+                transform.position = new Vector3(transform.position.x + distance, transform.position.y, transform.position.z);
+                chanceToSpawn -= decayRate;
+            }
+            else
+            {
+                StartSpawning();
+            }
+            
+        }
+    }
+     
 }
