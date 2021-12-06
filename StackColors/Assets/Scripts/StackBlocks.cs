@@ -1,9 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+using TMPro;
 
 public class StackBlocks : MonoBehaviour
 {
+    public TextMeshProUGUI scoreText;
+
     public Transform stackPositionFinal;
     public Transform stackPosition;
     public float lerpSpeed = 3.0f;
@@ -11,6 +15,9 @@ public class StackBlocks : MonoBehaviour
     public GameObject player;
     private Camera mainCamera;
     private Material playerMaterial;
+
+    private int score;
+
     private void Start()
     {
         mainCamera = Camera.main;
@@ -31,9 +38,15 @@ public class StackBlocks : MonoBehaviour
             stackPositionFinal.position += Vector3.up * (otherTransform.localScale.y);
             otherTransform.position = stackPositionFinal.position;
             otherTransform.parent = stackPosition;
-
+            UpdateScore(1);
             MoveCameraBehind();
         }
+    }
+
+    public void UpdateScore(int scoreToAdd)
+    {
+        score += scoreToAdd;
+        scoreText.text = score.ToString();
     }
 
     private void MoveCameraBehind()
