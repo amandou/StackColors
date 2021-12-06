@@ -22,7 +22,7 @@ public class SpawnManager : MonoBehaviour
     void SpawnBlocks()
     {
         int index = Random.Range(0, blocks.Count);
-        int blocksQuantity = Random.Range(5, 10);
+        int blocksQuantity = Random.Range(20, 30);
 
         for (int i = 0; i < blocksQuantity; i++)
         {
